@@ -8,12 +8,28 @@
 </head>
 <body>
     <h1>hello world</h1>
+    <form action="" method="post">
+        <input type="file" name="photo" accept="image/png, image/jpeg">
+        <input type="submit" value="Submit">
+    </form>
     <?php
     if (isset($_FILES['photo'])) {
-        // display image
+        $mysqli = new mysqli("localhost", "u1609257_cv", "shoe_EffB0", "u1609257_cv");
+        if ($mysqli->connect_errno)
+            echo "Failed to connect to MySQL: " . $mysqli->connect_error;
 
-        $img_url = "";
-        $prediction = passthru("python predict.py '$url'");
+        $ext = pathinfo($photo['name'], PATHINFO_EXTENSION);
+        $sql = "INSERT INTO photo(extension) VALUES (?)";
+        $stmt = $mysqli->prepare($sql);
+        $stmt->bind_param('s', $ext);
+        $stmt->execute();
+        $idgambar = $stmt->insert_id;
+        $img_url = "uploads/$idgambar.$ext";
+        move_uploaded_file($photo['tmp_name'][$i], $img_url);
+
+        echo "<img src='$img_url'>";
+
+        $prediction = passthru("python predict.py '$img_url'");
     }
     ?>
 </body>
