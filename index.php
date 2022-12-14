@@ -8,5 +8,13 @@
 </head>
 <body>
     <h1>hello world</h1>
+    <?php
+    if (isset($_FILES['photo'])) {
+        // display image
+
+        $img_url = "";
+        $prediction = passthru("python predict.py '$url'");
+    }
+    ?>
 </body>
 </html>
