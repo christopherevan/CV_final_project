@@ -17,6 +17,7 @@
         $mysqli = new mysqli("localhost", "u1609257_cv", "shoe_EffB0", "u1609257_cv");
         if ($mysqli->connect_errno)
             echo "Failed to connect to MySQL: " . $mysqli->connect_error;
+        $photo = $_FILES['photo'];
 
         $ext = pathinfo($photo['name'], PATHINFO_EXTENSION);
         $sql = "INSERT INTO photo(extension) VALUES (?)";
@@ -25,12 +26,12 @@
         $stmt->execute();
         $idgambar = $stmt->insert_id;
         $img_url = "uploads/$idgambar.$ext";
-        move_uploaded_file($photo['tmp_name'][$i], $img_url);
+        move_uploaded_file($photo['tmp_name'], $img_url);
 
         echo "<img src='$img_url'>";
         print_r($_POST);
         print_r($_FILES);
-        $prediction = passthru("python predict.py '$img_url'");
+        $prediction = shell_exec("python predict.py '$img_url'");
         echo $prediction;
     }
     ?>
