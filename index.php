@@ -10,10 +10,10 @@
     <h1>hello world</h1>
     <form action="" method="post">
         <input type="file" name="photo" accept="image/png, image/jpeg">
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" name="submit">
     </form>
     <?php
-    if (isset($_FILES['photo'])) {
+    if (isset($_POST['submit'])) {
         $mysqli = new mysqli("localhost", "u1609257_cv", "shoe_EffB0", "u1609257_cv");
         if ($mysqli->connect_errno)
             echo "Failed to connect to MySQL: " . $mysqli->connect_error;
@@ -28,8 +28,10 @@
         move_uploaded_file($photo['tmp_name'][$i], $img_url);
 
         echo "<img src='$img_url'>";
-
+        print_r($_POST);
+        print_r($_FILES);
         $prediction = passthru("python predict.py '$img_url'");
+        echo $prediction;
     }
     ?>
 </body>
