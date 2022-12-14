@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>hello world</h1>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         <input type="file" name="photo" accept="image/png, image/jpeg">
         <input type="submit" value="Submit" name="submit">
     </form>
